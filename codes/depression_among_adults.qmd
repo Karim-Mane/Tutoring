@@ -25,15 +25,22 @@ library(magrittr)
 
 ## Import dataset
 
+* you don't need to set the working directory. we are now working from the project folder
+* found out why I am using the `dirname()` here
+
 ```{r}
 #Set working directory
 
-setwd("/Users/admin/Desktop/adult-depression-lghc-indicator-24.csv")
-getwd()
+# the followings are not needed - commented them out
+# setwd("/Users/admin/Desktop/adult-depression-lghc-indicator-24.csv")
+# getwd()
+
 # create a file_path for easy access
+file_path <- file.path(
+  dirname(getwd()), "data", "adult-depression-lghc-indicator-24.csv"
+)
 
-file_path <- file.path(getwd(), "adult-depression-lghc-indicator-24.csv")
-
+# import the data
 depression_data <- read.csv(file_path)
 ```
 
