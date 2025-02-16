@@ -1,0 +1,125 @@
+---
+title: "Depression Among Adults"
+format: html
+author: "Mariama Marish Keita"
+date: "2025-02-15"
+---
+
+## Project Description
+
+Provide the project description here.
+
+## Loading of Libraries 
+
+Provide instructions for library installation and reason why you are using every library.
+
+```{r setup, include=FALSE}
+library(readr)
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+library(nortest)
+library(magrittr)
+```
+
+## Import dataset
+
+```{r}
+#Set working directory
+
+setwd("/Users/admin/Desktop/adult-depression-lghc-indicator-24.csv")
+getwd()
+# create a file_path for easy access
+
+file_path <- file.path(getwd(), "adult-depression-lghc-indicator-24.csv")
+
+depression_data <- read.csv(file_path)
+```
+
+## Description of the dataset 
+
+
+This dataset contains information on adult depression among males and females from different ethnicities in the USA. It includes 161 rows and 8 columns, covering data from 2012 to 2018.  
+
+- Column 1 represents the year in which the data ws recorded.  
+- Column 2 represents a category used to divide the data (eg race, age,income). 
+- Column 3 specifies the subgroup within the Strata.  
+- Column 4 represents the count of individuals in the given category.  
+- Column 5 provides a weighted estimate of the number of people in the population.  
+- Column 6 represents the percentage of the population experiencing the condition.  
+- Column 7 represents the lower bound of the 95% confidence interval.  
+- Column 8 represen the upper bound of the 95% confidence interval.
+
+# Research Questions 
+
+- How has the prevalence of adult depression changed from 2012 to 2018?
+```{r}
+ggplot(depression_data, aes(x = Year, y = Percent, group = Strata, color = Strata)) +
+  geom_line() + 
+  geom_point() +
+  labs(title = "Trends in Adult Depression (2012-2018)",
+       x = "Year", y = "Prevalence (%)")
+
+```
+
+
+- are there  significant difference in depression rates between males and females over the years?
+
+```{r}
+
+
+sex_depression <- depression_data %>%
+  filter(Strata == "Sex") %>%
+  ggplot(aes(x = Strata.Name, y = Percent, fill = Strata.Name)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Depression Rates in Males and Females Over the Years",
+       x = "Sex", y = "Prevalence (%)") +
+  theme_minimal()
+
+
+```
+
+
+- How does race/ethnicity influence depression rates?
+```{r}
+ggplot(depression_data, aes(x = Strata.Name, y = Percent, fill = Strata.Name)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Depression Rates by Race/Ethnicity",
+       x = "Race/Ethnicity", y = "Prevalence (%)")
+
+```
+
+
+- Which ethnic group has the highest prevalence of depression over the years?
+
+- Is there a significant difference in depression rates based on income levels
+Statistical Associations
+
+- Is there a correlation between weighted frequency and percentage of depression?
+
+- Are there significant differences in depression rates between different age groups ?
+
+- Show the distribution of depression rates across different groups.
+
+```{r}
+ggplot(depression_data, aes(x = Strata.Name, y = Percent, fill = Strata.Name)) +
+  geom_boxplot() +
+  labs(title = "Distribution of Depression Rates by Group",
+       x = "Group", y = "Prevalence (%)")
+
+```
+is the distribution normal for age ?
+
+```{r}
+ggplot(depression_data, aes(x = Age)) +
+  geom_histogram(aes(y = ..density..), bins = 30, fill = "blue", alpha = 0.5) +
+  geom_density(color = "pink") +
+  labs(title = "Distribution of Age", x = "Age", y = "Density")
+# or 
+
+depression_data %>%
+  group_by(Year, Strata.Name) %>%
+  summarise(p_value = shapiro.test(Age)$p.value)
+
+
+```
