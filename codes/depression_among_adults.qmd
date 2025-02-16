@@ -11,7 +11,8 @@ Provide the project description here.
 
 ## Loading of Libraries 
 
-Provide instructions for library installation and reason why you are using every library.
+* Provide instructions for library installation, and
+* reasons why you are using every library.
 
 ```{r setup, include=FALSE}
 library(readr)
