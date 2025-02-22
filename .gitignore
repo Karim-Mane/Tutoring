@@ -11,4 +11,4 @@ adult-depression-lghc-indicator-24
 .DS_Store
 
 # do not commit data in the Data/
-data/
+/data/
