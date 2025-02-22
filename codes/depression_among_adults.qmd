@@ -9,11 +9,17 @@ date: "2025-02-15"
 
 Provide the project description here.
 
+## Research questions
+
+Your research questions go here.
+
 ## Loading of Libraries 
 
-Provide instructions for library installation and reason why you are using every library.
+* Provide instructions for library installation, and
+* reasons why you are using every library.
 
 ```{r setup, include=FALSE}
+if (!require(readr)) install.packages("readr")
 library(readr)
 library(ggplot2)
 library(tidyr)
@@ -24,22 +30,40 @@ library(magrittr)
 
 ## Import dataset
 
+* you don't need to set the working directory. we are now working from the project folder
+* found out why I am using the `dirname()` here
+
 ```{r}
 #Set working directory
 
-setwd("/Users/admin/Desktop/adult-depression-lghc-indicator-24.csv")
-getwd()
+# the followings are not needed - commented them out
+# setwd("/Users/admin/Desktop/adult-depression-lghc-indicator-24.csv")
+# getwd()
+
 # create a file_path for easy access
+file_path <- file.path(
+  dirname(getwd()), "data", "adult-depression-lghc-indicator-24.csv"
+)
 
-file_path <- file.path(getwd(), "adult-depression-lghc-indicator-24.csv")
-
+# import the data
 depression_data <- read.csv(file_path)
 ```
 
 ## Description of the dataset 
 
+This dataset contains information on adult depression among males and females from different ethnicities in the USA.
 
-This dataset contains information on adult depression among males and females from different ethnicities in the USA. It includes 161 rows and 8 columns, covering data from 2012 to 2018.  
+::: {.callout-note collapse="true"}
+## Use inline code to determine the number of rows and columns in the dataset - same for the study years
+
+It includes `r nrow(depression_data)` rows and `r ncol(depression_data)` columns, covering data from 2012 to 2018. 
+:::
+
+::: {.callout-note collapse="true"}
+## provide explicite column names
+
+use column names instead of numbers
+:::
 
 - Column 1 represents the year in which the data ws recorded.  
 - Column 2 represents a category used to divide the data (eg race, age,income). 
@@ -48,7 +72,7 @@ This dataset contains information on adult depression among males and females fr
 - Column 5 provides a weighted estimate of the number of people in the population.  
 - Column 6 represents the percentage of the population experiencing the condition.  
 - Column 7 represents the lower bound of the 95% confidence interval.  
-- Column 8 represen the upper bound of the 95% confidence interval.
+- Column 8 represents the upper bound of the 95% confidence interval.
 
 # Research Questions 
 
