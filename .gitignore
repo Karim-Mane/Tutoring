@@ -9,3 +9,6 @@ adult-depression-lghc-indicator-24
 
 # macOS hidden files
 .DS_Store
+
+# do not commit data in the Data/
+data/
