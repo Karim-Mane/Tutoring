@@ -9,12 +9,17 @@ date: "2025-02-15"
 
 Provide the project description here.
 
+## Research questions
+
+Your research questions go here.
+
 ## Loading of Libraries 
 
 * Provide instructions for library installation, and
 * reasons why you are using every library.
 
 ```{r setup, include=FALSE}
+if (!require(readr)) install.packages("readr")
 library(readr)
 library(ggplot2)
 library(tidyr)
@@ -46,16 +51,19 @@ depression_data <- read.csv(file_path)
 
 ## Description of the dataset 
 
-
 This dataset contains information on adult depression among males and females from different ethnicities in the USA.
 
 ::: {.callout-note collapse="true"}
 ## Use inline code to determine the number of rows and columns in the dataset - same for the study years
 
-It includes 161 rows and 8 columns, covering data from 2012 to 2018. 
+It includes `r nrow(depression_data)` rows and `r ncol(depression_data)` columns, covering data from 2012 to 2018. 
 :::
- 
 
+::: {.callout-note collapse="true"}
+## provide explicite column names
+
+use column names instead of numbers
+:::
 
 - Column 1 represents the year in which the data ws recorded.  
 - Column 2 represents a category used to divide the data (eg race, age,income). 
@@ -64,7 +72,7 @@ It includes 161 rows and 8 columns, covering data from 2012 to 2018.
 - Column 5 provides a weighted estimate of the number of people in the population.  
 - Column 6 represents the percentage of the population experiencing the condition.  
 - Column 7 represents the lower bound of the 95% confidence interval.  
-- Column 8 represen the upper bound of the 95% confidence interval.
+- Column 8 represents the upper bound of the 95% confidence interval.
 
 # Research Questions 
 
