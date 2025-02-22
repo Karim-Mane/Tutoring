@@ -47,7 +47,15 @@ depression_data <- read.csv(file_path)
 ## Description of the dataset 
 
 
-This dataset contains information on adult depression among males and females from different ethnicities in the USA. It includes 161 rows and 8 columns, covering data from 2012 to 2018.  
+This dataset contains information on adult depression among males and females from different ethnicities in the USA.
+
+::: {.callout-note collapse="true"}
+## Use inline code to determine the number of rows and columns in the dataset - same for the study years
+
+It includes 161 rows and 8 columns, covering data from 2012 to 2018. 
+:::
+ 
+
 
 - Column 1 represents the year in which the data ws recorded.  
 - Column 2 represents a category used to divide the data (eg race, age,income). 
