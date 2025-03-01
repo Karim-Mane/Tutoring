@@ -74,20 +74,53 @@ use column names instead of numbers
 - Column 7 represents the lower bound of the 95% confidence interval.  
 - Column 8 represents the upper bound of the 95% confidence interval.
 
-# Research Questions 
+## Data analysis 
 
-- How has the prevalence of adult depression changed from 2012 to 2018?
+::: {.callout-important collapse="true"}
+## the data structure
+
+This data structure does not allow you answer many questions. From a first impression, you can only compare the depression level the different groups of each strata.
+It would be better to work on the original data.
+:::
+
+### How has the prevalence of adult depression changed from 2012 to 2018?
+
+::: {.callout-note collapse="true"}
+## unappropriated plot
+
+The type of plot you are using here is not appropriated. Think about this again and change the way to visualise the data.
+A bar plot maybe 🤔 !!!
+:::
+
 ```{r}
-ggplot(depression_data, aes(x = Year, y = Percent, group = Strata, color = Strata)) +
-  geom_line() + 
-  geom_point() +
-  labs(title = "Trends in Adult Depression (2012-2018)",
-       x = "Year", y = "Prevalence (%)")
+# filter out rows with Sex and Total in the 'Strata' column
+data_1 <- depression_data %>%
+  dplyr::filter(!(Strata %in% c("Total", "Sex")))
 
+# plot the depression level distribution across the different strat over years
+p <- ggplot(data_1, aes(fill = Strata.Name, x = Strata, y = Percent)) +
+  geom_bar(position = "dodge", stat = "identity") +
+  facet_wrap(~Year)
+```
+
+
+```{r}
+ggplot(depression_data,
+       aes(x = Year, y = Percent, group = Strata.Name,
+           color = Strata.Name)) +
+  geom_line() + 
+  facet_wrap(~Strata)
 ```
 
 
 - are there  significant difference in depression rates between males and females over the years?
+
+::: {.callout-important collapse="true"}
+## perform statistical tests
+
+If you want to know whether there is a statistical difference in depression between male and female, you need to perform a test.
+A graphic can not tell tou that.
+:::
 
 ```{r}
 
