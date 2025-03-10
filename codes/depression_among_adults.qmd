@@ -7,93 +7,14 @@ date: "2025-02-15"
 
 ## Project Description
 
-Provide the project description here.
+This dataset contains information on adult depression among males and females from different ethnicities in the USA.
 
-## Loading of Libraries 
-
-Provide instructions for library installation and reason why you are using every library.
-
-```{r setup, include=FALSE}
-library(readr)
-library(ggplot2)
-library(tidyr)
-library(dplyr)
-library(nortest)
-library(magrittr)
-```
-
-## Import dataset
-
-```{r}
-#Set working directory
-
-setwd("/Users/admin/Desktop/adult-depression-lghc-indicator-24.csv")
-getwd()
-# create a file_path for easy access
-
-file_path <- file.path(getwd(), "adult-depression-lghc-indicator-24.csv")
-
-depression_data <- read.csv(file_path)
-```
-
-## Description of the dataset 
-
-
-This dataset contains information on adult depression among males and females from different ethnicities in the USA. It includes 161 rows and 8 columns, covering data from 2012 to 2018.  
-
-- Column 1 represents the year in which the data ws recorded.  
-- Column 2 represents a category used to divide the data (eg race, age,income). 
-- Column 3 specifies the subgroup within the Strata.  
-- Column 4 represents the count of individuals in the given category.  
-- Column 5 provides a weighted estimate of the number of people in the population.  
-- Column 6 represents the percentage of the population experiencing the condition.  
-- Column 7 represents the lower bound of the 95% confidence interval.  
-- Column 8 represen the upper bound of the 95% confidence interval.
-
-# Research Questions 
-
-- How has the prevalence of adult depression changed from 2012 to 2018?
-```{r}
-ggplot(depression_data, aes(x = Year, y = Percent, group = Strata, color = Strata)) +
-  geom_line() + 
-  geom_point() +
-  labs(title = "Trends in Adult Depression (2012-2018)",
-       x = "Year", y = "Prevalence (%)")
-
-```
-
-
-- are there  significant difference in depression rates between males and females over the years?
-
-```{r}
-
-
-sex_depression <- depression_data %>%
-  filter(Strata == "Sex") %>%
-  ggplot(aes(x = Strata.Name, y = Percent, fill = Strata.Name)) +
-  geom_bar(stat = "identity", position = "dodge") +
-  labs(title = "Depression Rates in Males and Females Over the Years",
-       x = "Sex", y = "Prevalence (%)") +
-  theme_minimal()
-
-
-```
-
-
-- How does race/ethnicity influence depression rates?
-```{r}
-ggplot(depression_data, aes(x = Strata.Name, y = Percent, fill = Strata.Name)) +
-  geom_bar(stat = "identity") +
-  labs(title = "Depression Rates by Race/Ethnicity",
-       x = "Race/Ethnicity", y = "Prevalence (%)")
-
-```
-
+## Research questions
 
 - Which ethnic group has the highest prevalence of depression over the years?
 
 - Is there a significant difference in depression rates based on income levels
-Statistical Associations
+Statistical Association
 
 - Is there a correlation between weighted frequency and percentage of depression?
 
@@ -101,25 +22,99 @@ Statistical Associations
 
 - Show the distribution of depression rates across different groups.
 
-```{r}
-ggplot(depression_data, aes(x = Strata.Name, y = Percent, fill = Strata.Name)) +
-  geom_boxplot() +
-  labs(title = "Distribution of Depression Rates by Group",
-       x = "Group", y = "Prevalence (%)")
 
+## Loading of Libraries 
+
+For the library installation i prefer to use pacman package . It is a package manager that manages other packages. 
+
+
+```{r setup, include=FALSE}
+if (!require(readr)) install.packages("readr") or 
+
+# if(!require(pacman)) install.packages("pacman")
+# pacman::pload(readr, ggplot2, tidyr,dplyr, nortest, magrittr)
+library(readr) # It is used for reading and writing data efficiently
+library(ggplot2) # Used for data visualization
+library(tidyr) # this pacakge is use for data cleaning and reshaping 
+library(dplyr) # They are used for data manipulation and transformation
+library(nortest) # Provides multiple statistical tests to check if a dataset follows a normal distribution
+library(magrittr) # used for writting cleaner, more readable code by providing the pipe operator.
 ```
-is the distribution normal for age ?
+
+## Import dataset
+
+The `dirname()` function in R extracts the directory (folder ) path from a given file path. It is useful when working with file paths, directories. 
 
 ```{r}
-ggplot(depression_data, aes(x = Age)) +
-  geom_histogram(aes(y = ..density..), bins = 30, fill = "blue", alpha = 0.5) +
-  geom_density(color = "pink") +
-  labs(title = "Distribution of Age", x = "Age", y = "Density")
-# or 
+#Set working directory
 
-depression_data %>%
-  group_by(Year, Strata.Name) %>%
-  summarise(p_value = shapiro.test(Age)$p.value)
+# the followings are not needed - commented them out
+# setwd("/Users/admin/Desktop/adult-depression-lghc-indicator-24.csv")
+# getwd()
+
+# create a file_path for easy access
+file_path <- file.path(dirname(getwd()), "depression_data", "adult-depression-lghc-indicator-24.csv")
+
+# import the data
+depression_data <- read.csv(file_path)
+```
+
+## Description of the dataset 
+
+This dataset contains information on adult depression among males and females from different ethnicities in the USA.
+
+This dataset includes `r nrow(depression_data)` rows and `r ncol(depression_data)` columns, covering data from 2012 to 2018. 
 
 
+The column `r colnames(depression_data)[1]` represents the year in which the data was recorded.  
+
+## or we can also say The column `r colnames(depression_data)[which(colnames(depression_data) == "Year)]`
+
+- `r colnames(depression_data)[2]` represents a category used to divide the data (eg race, age,income). 
+- `r colnames(depression_data)[3]` specifies the subgroup within the Strata.  
+- `r colnames(depression_data)[4]` represents the count of individuals in the given category.  
+- `r colnames (depression_data)[5]`  provides a weighted estimate of the number of people in the population.  
+- `r colnames(depression_data)[6] ` represents the percentage of the population experiencing depression condition.  
+- `r colnames(depression_data)[7]` represents the lower bound of the 95% confidence interval.  
+- `r colnames(depression_data)[8]` represents the upper bound of the 95% confidence interval.
+
+## Data analysis 
+
+```{r}
+# filter out rows with Sex and Total in the 'Strata' column
+data_1 <- depression_data %>%
+  dplyr::filter(!(Strata %in% c("Total", "Sex")))
+
+# plot the depression level distribution across the different strata over years
+p <- ggplot(data_1, aes(fill = Strata.Name, x = Strata, y = Percent)) +
+  geom_bar(position = "dodge", stat = "identity") +
+  facet_wrap(~Year)
+```
+
+```{r}
+ggplot(depression_data,
+       aes(x = Year, y = Percent, group = Strata.Name,
+           color = Strata.Name)) +
+  geom_line() + 
+  facet_wrap(~Strata)
+```
+
+
+- are there  significant difference in depression rates between males and females over the years?
+
+## statistical tests
+
+To know if there is a statistical difference in depression btw male and female we first need to check if the distribution is normal then we hypothesised that there is a statistical difference between two sexes. 
+
+we used the shapiro to confirm that. 
+```{r}
+data_2 <- depression %>%
+  dplyr::filter(!(Strata %in% c("Total")))
+
+shapiro.test(data_2$Frequency)
+
+# since p -value is less that 0.03 then the distribution is not  normal 
+
+
+# ops i have to come back and work on this 
 ```
