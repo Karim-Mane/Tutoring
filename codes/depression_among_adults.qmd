@@ -25,7 +25,7 @@ Statistical Association
 
 ## Loading of Libraries 
 
-For the library installation i prefer to use pacman package . It is a package manager that manages other packages. 
+For the library installation I prefer to use the {pacman} package . It is a package manager that manages and facilitate the installation of other packages. 
 
 
 ```{r setup, include=FALSE}
