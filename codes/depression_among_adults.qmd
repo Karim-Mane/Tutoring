@@ -7,7 +7,14 @@ date: "2025-02-15"
 
 ## Project Description
 
-This dataset contains information on adult depression among males and females from different ethnicities in the USA.
+This project analyzes data collected from individuals in the United States who experienced depression between `2012` and `2017`. The dataset includes individuals from diverse backgrounds, categorized by race, gender, income, education level, and age.
+
+The racial categories include Black, White, Hispanic, Asian/Islander, and Other. Gender is classified as male or female. Educational background is divided into five groups: no high school diploma, high school graduate, some college or technical school, college graduate, and postgraduate.
+
+The study also examines whether depression is influenced by age, with age groups categorized as 18–34, 35–44, 45–54, 55–64, and 65 and above. Additionally, it explores the potential correlation between depression and income levels, with income brackets of less than $20,000, $20,000–$34,999, $35,000–$49,999, $50,000–$74,900, $75,000–$99,999, and $100,000 or more per year.
+
+The primary objective of this project is to determine whether there is a correlation between depression and factors such as gender, age, income, and education. It specifically aims to identify whether depression is more prevalent among certain groups, such as males or females, different age ranges, or individuals with varying income levels and educational backgrounds.
+
 
 ## Research questions
 
@@ -20,7 +27,6 @@ Statistical Association
 
 - Are there significant differences in depression rates between different age groups ?
 
-- Show the distribution of depression rates across different groups.
 
 
 ## Loading of Libraries 
@@ -29,13 +35,13 @@ For the library installation I prefer to use the {pacman} package . It is a pack
 
 
 ```{r setup, include=FALSE}
-if (!require(readr)) install.packages("readr") or 
+
 
 # if(!require(pacman)) install.packages("pacman")
 # pacman::pload(readr, ggplot2, tidyr,dplyr, nortest, magrittr)
 library(readr) # It is used for reading and writing data efficiently
 library(ggplot2) # Used for data visualization
-library(tidyr) # this pacakge is use for data cleaning and reshaping 
+library(tidyr) # this package is use for data cleaning and reshaping 
 library(dplyr) # They are used for data manipulation and transformation
 library(nortest) # Provides multiple statistical tests to check if a dataset follows a normal distribution
 library(magrittr) # used for writting cleaner, more readable code by providing the pipe operator.
@@ -53,7 +59,7 @@ The `dirname()` function in R extracts the directory (folder ) path from a given
 # getwd()
 
 # create a file_path for easy access
-file_path <- file.path(dirname(getwd()), "depression_data", "adult-depression-lghc-indicator-24.csv")
+file_path <- file.path(dirname(getwd()), "adult-depression-lghc-indicator-24.csv")
 
 # import the data
 depression_data <- read.csv(file_path)
@@ -116,5 +122,4 @@ shapiro.test(data_2$Frequency)
 # since p -value is less that 0.03 then the distribution is not  normal 
 
 
-# ops i have to come back and work on this 
 ```
