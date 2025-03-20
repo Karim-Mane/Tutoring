@@ -35,7 +35,7 @@ if (!require(readr)) install.packages("readr") or
 # pacman::pload(readr, ggplot2, tidyr,dplyr, nortest, magrittr)
 library(readr) # It is used for reading and writing data efficiently
 library(ggplot2) # Used for data visualization
-library(tidyr) # this pacakge is use for data cleaning and reshaping 
+library(tidyr) # this package is use for data cleaning and reshaping 
 library(dplyr) # They are used for data manipulation and transformation
 library(nortest) # Provides multiple statistical tests to check if a dataset follows a normal distribution
 library(magrittr) # used for writting cleaner, more readable code by providing the pipe operator.
